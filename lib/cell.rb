@@ -19,4 +19,12 @@ class Cell
   def place_ship(ship)
     @ship = ship
   end
+
+  def fire_upon
+    unless empty?
+      @ship.hit
+    end
+    @fired_upon = true
+  end
+
 end

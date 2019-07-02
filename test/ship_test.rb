@@ -6,7 +6,6 @@ class ShipTest < Minitest::Test
 
   def setup
     @cruiser = Ship.new("Cruiser", 3)
-
   end
 
 
@@ -31,5 +30,9 @@ class ShipTest < Minitest::Test
     @cruiser.hit
     assert_equal 1, @cruiser.health
   end
-  
+
+  def test_reducing_health_to_0_sinks_the_ship
+    3.times { @cruiser.hit }
+    assert @cruiser.sunk?
+  end
 end

@@ -16,8 +16,8 @@ class BoardTest < Minitest::Test
 
   def test_attributes
     assert_instance_of Hash, @board.cells
-    assert_equal 16, @board.cells.keys
-    assert_equal 16, @board.cells.values
+    assert_equal 16, @board.cells.keys.length
+    assert_equal 16, @board.cells.values.length
     assert_instance_of Cell, @board.cells["A1"]
   end
 end

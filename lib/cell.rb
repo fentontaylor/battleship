@@ -41,7 +41,7 @@ class Cell
         end
       end
     else
-      if show_ship
+      if show_ship && !empty?
         "S"
       else
         "."

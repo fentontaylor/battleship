@@ -43,6 +43,7 @@ class CellTest < Minitest::Test
 
   def test_render_if_no_ship_present
     assert_equal ".", @cell.render
+    assert_equal ".", @cell.render(true)
     @cell.fire_upon
     assert_equal "M", @cell.render
   end
@@ -61,5 +62,5 @@ class CellTest < Minitest::Test
     @cell.fire_upon
     assert_equal "X", @cell.render
   end
-  
+
 end

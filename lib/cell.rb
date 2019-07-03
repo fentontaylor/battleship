@@ -21,10 +21,12 @@ class Cell
   end
 
   def fire_upon
-    unless empty?
-      @ship.hit
+    unless fired_upon?
+      unless empty?
+        @ship.hit
+      end
+      @fired_upon = true
     end
-    @fired_upon = true
   end
 
   def render(show_ship = false)

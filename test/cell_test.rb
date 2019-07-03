@@ -41,7 +41,7 @@ class CellTest < Minitest::Test
     assert @cell.fired_upon?
   end
 
-  def test_render_if_no_ship
+  def test_render_if_no_ship_present
     assert_equal ".", @cell.render
     @cell.fire_upon
     assert_equal "M", @cell.render
@@ -49,11 +49,17 @@ class CellTest < Minitest::Test
 
   def test_render_if_ship_present
     @cell.place_ship(@cruiser)
+    assert_equal ".", @cell.render
     assert_equal "S", @cell.render(true)
     @cell.fire_upon
     assert_equal "H", @cell.render
-    @cell.fire_upon
+  end
+
+  def test_render_when_a_hit_sinks_the_ship
+    @cell.place_ship(@cruiser)
+    2.times { @cell.ship.hit }
     @cell.fire_upon
     assert_equal "X", @cell.render
   end
+  
 end

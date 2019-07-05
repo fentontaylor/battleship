@@ -107,4 +107,85 @@ class BoardTest < Minitest::Test
 
     refute @board.valid_placement?(sub, ["A1", "B1"])
   end
+
+  def test_board_render_invisible_ship
+    cruiser = Ship.new("Cruiser", 3)
+
+    @board.place(cruiser, ["A1", "A2", "A3"])
+    expected =
+      "  1 2 3 4 \n" +
+      "A . . . . \n" +
+      "B . . . . \n" +
+      "C . . . . \n" +
+      "D . . . . \n"
+    assert_equal expected, @board.render
+
+    @board.cells["A1"].fire_upon
+    expected_2 =
+      "  1 2 3 4 \n" +
+      "A H . . . \n" +
+      "B . . . . \n" +
+      "C . . . . \n" +
+      "D . . . . \n"
+    assert_equal expected_2, @board.render
+
+    @board.cells["B1"].fire_upon
+    expected_3 =
+      "  1 2 3 4 \n" +
+      "A H . . . \n" +
+      "B M . . . \n" +
+      "C . . . . \n" +
+      "D . . . . \n"
+    assert_equal expected_3, @board.render
+
+    @board.cells["A2"].fire_upon
+    @board.cells["A3"].fire_upon
+    expected_4 =
+      "  1 2 3 4 \n" +
+      "A X X X . \n" +
+      "B M . . . \n" +
+      "C . . . . \n" +
+      "D . . . . \n"
+    assert_equal expected_4, @board.render
+  end
+
+  def test_board_render_visible_ship
+    sub = Ship.new("Submarine", 2)
+
+    @board.place(sub, ["D3", "D4"])
+    expected_true =
+    "  1 2 3 4 \n" +
+    "A . . . . \n" +
+    "B . . . . \n" +
+    "C . . . . \n" +
+    "D . . S S \n"
+    assert_equal expected_true, @board.render(true)
+
+    @board.cells["A1"].fire_upon
+    expected_2 =
+      "  1 2 3 4 \n" +
+      "A M . . . \n" +
+      "B . . . . \n" +
+      "C . . . . \n" +
+      "D . . S S \n"
+    assert_equal expected_2, @board.render(true)
+
+    @board.cells["D3"].fire_upon
+    expected_3 =
+      "  1 2 3 4 \n" +
+      "A M . . . \n" +
+      "B . . . . \n" +
+      "C . . . . \n" +
+      "D . . H S \n"
+    assert_equal expected_3, @board.render(true)
+
+    @board.cells["D4"].fire_upon
+    expected_4 =
+      "  1 2 3 4 \n" +
+      "A M . . . \n" +
+      "B . . . . \n" +
+      "C . . . . \n" +
+      "D . . X X \n"
+    assert_equal expected_4, @board.render(true)
+  end
 end

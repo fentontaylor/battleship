@@ -78,4 +78,33 @@ class BoardTest < Minitest::Test
     assert @board.valid_placement?(cruiser, ["B1", "C1", "D1"])
     assert @board.valid_placement?(cruiser, ["B1", "B2", "B3"])
   end
+
+  def test_can_place_ships_on_board
+    cruiser = Ship.new("Cruiser", 3)
+    @board.place(cruiser, ["A1", "A2", "A3"])
+    cell_1 = @board.cells["A1"]
+    cell_2 = @board.cells["A2"]
+    cell_3 = @board.cells["A3"]
+
+    assert_instance_of Ship, cell_1.ship
+    assert_equal cell_2.ship, cell_3.ship
+  end
+
+  def test_all_free_spaces?
+    assert @board.all_free_spaces?(["A1", "A2", "A3"])
+
+    cruiser = Ship.new("Cruiser", 3)
+    @board.place(cruiser, ["A1", "A2", "A3"])
+
+    refute @board.all_free_spaces?(["A1", "A2", "A3"])
+    refute @board.all_free_spaces?(["A2", "B2", "C2"])
+  end
+
+  def test_cannot_places_ships_in_occupied_cells
+    cruiser = Ship.new("Cruiser", 3)
+    @board.place(cruiser, ["A1", "A2", "A3"])
+    sub = Ship.new("Submarine", 2)
+
+    refute @board.valid_placement?(sub, ["A1", "B1"])
+  end
 end

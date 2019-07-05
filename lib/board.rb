@@ -53,14 +53,24 @@ class Board
     else
       false
     end
+  end
 
+  def all_free_spaces?(coords_array)
+    coords_array.all? {|coord| @cells[coord].ship.nil?}
   end
 
   def valid_placement?(ship, coords_array)
     all_checks = [all_valid_coords?(coords_array),
                   valid_length?(ship, coords_array),
-                  consecutive?(coords_array)]
+                  consecutive?(coords_array),
+                  all_free_spaces?(coords_array)]
+
     all_checks.all? {|check| check == true}
   end
 
+  def place(ship, coords_array)
+    coords_array.each do |coord|
+      @cells[coord].place_ship(ship)
+    end
+  end
 end

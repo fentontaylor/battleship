@@ -1,5 +1,5 @@
 class Board
-  attr_reader :cells
+  attr_reader :cells, :size
   def initialize(size = 4)
     @size = size
     @cells = make_cells
@@ -14,6 +14,10 @@ class Board
     these_cells = {}
     cell_names.each {|cell| these_cells[cell] = Cell.new(cell)}
     these_cells
+  end
+
+  def valid_coordinate?(coord)
+    @cells.keys.include?(coord)
   end
 
 end

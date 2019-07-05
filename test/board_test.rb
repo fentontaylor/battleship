@@ -54,6 +54,15 @@ class BoardTest < Minitest::Test
     assert @board.valid_length?(sub,%w[B1 B2])
   end
 
+  def test_consecutive_coordinates
+    refute @board.consecutive?(%w[A1 A2 A4])
+    refute @board.consecutive?(%w[A1 C1])
+    refute @board.consecutive?(%w[A3 A2 A1])
+    refute @board.consecutive?(%w[A1 B2 C3])
+    assert @board.consecutive?(%w[C1 C2 C3])
+    assert @board.consecutive?(%w[A1 B1 C1])
+  end
+
   def test_valid_placement?
     cruiser = Ship.new("Cruiser", 3)
     sub = Ship.new("Submarine", 2)

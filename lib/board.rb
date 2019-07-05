@@ -28,6 +28,34 @@ class Board
     ship.length == coords_array.length
   end
 
+  def consecutive?(coords_array)
+    coord_rows = coords_array.map {|coord| coord[0].ord}
+    coord_cols = coords_array.map {|coord| coord[1].to_i}
+
+    if coord_rows.uniq.length == 1 # All coords from same row
+      diff =  coord_cols.map.with_index do |coord, index|
+                unless index == coord_cols.length - 1
+                  coord_cols[index + 1] - coord
+                end
+              end
+      diff.pop
+      diff.all? {|num| num == 1}
+
+    elsif coord_cols.uniq.length == 1 # All coords from same column
+      diff =  coord_rows.map.with_index do |coord, index|
+                unless index == coord_rows.length - 1
+                  coord_rows[index + 1] - coord
+                end
+              end
+      diff.pop
+      diff.all? {|num| num == 1}
+
+    else
+      false
+    end
+
+  end
+
   def valid_placement?(ship, coords_array)
 
   end

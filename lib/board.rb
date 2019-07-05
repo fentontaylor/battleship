@@ -20,4 +20,16 @@ class Board
     @cells.keys.include?(coord)
   end
 
+  def all_valid_coords?(coords_array)
+    coords_array.all? {|coord| valid_coordinate?(coord)}
+  end
+
+  def valid_length?(ship, coords_array)
+    ship.length == coords_array.length
+  end
+
+  def valid_placement?(ship, coords_array)
+
+  end
+
 end

@@ -14,8 +14,8 @@ class BoardTest < Minitest::Test
     assert_instance_of Board, @board
   end
 
-  def test_default_size_is_4
-    assert_equal 4, @board.size
+  def test_default_size_is_4_by_4
+    assert_equal 4 * 4, @board.cells.keys.length
   end
 
   def test_cells_attribute

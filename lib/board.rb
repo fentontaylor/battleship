@@ -2,13 +2,15 @@ class Board
   attr_reader :cells, :size
   def initialize(size = 4)
     @size = size
+    @row_names = ('A'..'Z').to_a[0..@size - 1]
+    @col_names = (1..@size).to_a
     @cells = make_cells
   end
 
   def make_cells
-    rows = ('A'..'Z').to_a[0..@size - 1] * @size
+    rows = @row_names * @size
     rows = rows.sort
-    cols = (1..@size).to_a * @size
+    cols =  @col_names * @size
     cell_names = rows.zip cols
     cell_names = cell_names.map(&:join)
     these_cells = {}
@@ -75,15 +77,15 @@ class Board
   end
 
   def render(show_ship = false)
-    col_names = (1..@size).to_a.join(' ')
+    cell_names = @cells.keys
+    rendered_cells = cell_names.map {|cell| @cells[cell].render(show_ship)}
+    output_rows = ["  #{@col_names.join(' ')} \n"]
 
-    # rendered_cells = @cells.each
+    (0..@size -1).each do |i|
+      these_cells = rendered_cells[(i * @size)..((i + 1) * @size - 1)].join(' ')
+      output_rows << "#{@row_names[i]} #{these_cells} \n"
+    end
 
-    "  #{col_names} \n" +
-    "A #{@cells["A1"].render(show_ship)} #{@cells["A2"].render(show_ship)} #{@cells["A3"].render(show_ship)} #{@cells["A4"].render(show_ship)} \n" +
-    "B #{@cells["B1"].render(show_ship)} #{@cells["B2"].render(show_ship)} #{@cells["B3"].render(show_ship)} #{@cells["B4"].render(show_ship)} \n" +
-    "C #{@cells["C1"].render(show_ship)} #{@cells["C2"].render(show_ship)} #{@cells["C3"].render(show_ship)} #{@cells["C4"].render(show_ship)} \n" +
-    "D #{@cells["D1"].render(show_ship)} #{@cells["D2"].render(show_ship)} #{@cells["D3"].render(show_ship)} #{@cells["D4"].render(show_ship)} \n"
-
+    output_rows.join
   end
 end

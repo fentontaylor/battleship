@@ -14,6 +14,11 @@ class BoardTest < Minitest::Test
     assert_instance_of Board, @board
   end
 
+  def test_row_and_col_names
+    assert_equal %w[A B C D], @board.row_names
+    assert_equal [1, 2, 3, 4], @board.col_names
+  end
+
   def test_default_size_is_4_by_4
     assert_equal 4 * 4, @board.cells.keys.length
   end

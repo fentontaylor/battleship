@@ -38,6 +38,17 @@ class Game
       @pl_board.place(@pl_ships[:cruiser], cruiser_coords)
       puts "#{@pl_board.render(true)}"
 
+      print "Enter the squares for the Submarine (2 spaces):\n> "
+      sub_coords = gets.chomp.upcase.split(" ")
+
+      until  @pl_board.valid_placement?(@pl_ships[:submarine], sub_coords)
+        print "Those are invalid coordinates. Please try again:\n> "
+        sub_coords = gets.chomp.upcase.split(" ")
+      end
+
+      @pl_board.place(@pl_ships[:submarine], sub_coords)
+      puts "#{@pl_board.render(true)}"
+
     end
 
   end

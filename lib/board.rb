@@ -1,5 +1,5 @@
 class Board
-  attr_reader :cells, :size
+  attr_reader :cells
   def initialize(size = 4)
     @size = size
     @row_names = ('A'..'Z').to_a[0..@size - 1]

@@ -12,11 +12,23 @@ class Game
     @pl_board = Board.new
     @cp_ships = {cruiser: Ship.new('Cruiser', 3), submarine: Ship.new('Submarine', 2)}
     @pl_ships = {cruiser: Ship.new('Cruiser', 3), submarine: Ship.new('Submarine', 2)}
-
   end
 
-  def play_game
+  def place_cp_ships
+    rows = @cp_board.row_names
+    cols = @cp_board.col_names
+    cruiser_coords = []
+    3.times {cruiser_coords << rows.sample + cols.sample.to_s}
 
+    until @cp_board.valid_placement?(@cp_ships[:cruiser], cruiser_coords)
+      3.times {cruiser_coords << rows.sample + cols.sample.to_s}
+      cruiser_coords = cruiser_coords.sort
+    end
+
+    @cp_board.place(@cp_ships[:cruiser], cruiser_coords)
+
+  end
+  def play_game
     print "Welcome to BATTLESHIP\nEnter p to play. Enter q to quit. --> "
     selection = gets.chomp
 
@@ -48,6 +60,10 @@ class Game
 
       @pl_board.place(@pl_ships[:submarine], sub_coords)
       puts "#{@pl_board.render(true)}"
+      place_cp_ships
+      puts "cp_board"
+      puts "#{@cp_board.render(true)}"
+
 
     end
 

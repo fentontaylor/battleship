@@ -4,7 +4,7 @@ require './lib/board'
 require './lib/game'
 require 'minitest/autorun'
 require 'minitest/pride'
-require "pry"
+require 'pry'
 
 class GameTest < Minitest::Test
 

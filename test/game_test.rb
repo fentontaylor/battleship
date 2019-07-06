@@ -4,6 +4,7 @@ require './lib/board'
 require './lib/game'
 require 'minitest/autorun'
 require 'minitest/pride'
+require "pry"
 
 class GameTest < Minitest::Test
 
@@ -13,6 +14,10 @@ class GameTest < Minitest::Test
 
   def test_it_exists
     assert_instance_of Game, @game
+  end
+
+  def test_welcome_screen
+  
   end
 
 end

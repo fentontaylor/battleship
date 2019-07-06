@@ -34,18 +34,10 @@ class Cell
       if empty?
         "M"
       else
-        unless @ship.sunk?
-          "H"
-        else
-          "X"
-        end
+        @ship.sunk? ? "X" : "H"
       end
     else
-      if show_ship && !empty?
-        "S"
-      else
-        "."
-      end
+      show_ship && !empty? ? "S" : "."
     end
   end
 

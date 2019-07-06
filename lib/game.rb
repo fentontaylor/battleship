@@ -30,7 +30,12 @@ class Game
       print "Enter the squares for the Cruiser (3 spaces):\n> "
       cruiser_coords = gets.chomp.upcase.split(" ")
 
-      @pl_board.place(@pl_ships[:cruiser],cruiser_coords)
+      until  @pl_board.valid_placement?(@pl_ships[:cruiser], cruiser_coords)
+        print "Those are invalid coordinates. Please try again:\n> "
+        cruiser_coords = gets.chomp.upcase.split(" ")
+      end
+
+      @pl_board.place(@pl_ships[:cruiser], cruiser_coords)
       puts "#{@pl_board.render(true)}"
 
     end

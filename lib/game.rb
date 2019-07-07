@@ -31,11 +31,24 @@ class Game
         orientation = ['horiz', 'vert'].sample
 
         if orientation == 'horiz'
-          iter_num.times { ship_coords << cell_seed[0] + cols.sample.to_s }
+          change = [1, -1].sample
+          iter_num.times do
+            new_col = cell_seed[/[\d]+/].to_i + change
+            ship_coords << cell_seed[0] + new_col.to_s
+          end
           ship_coords = ship_coords.sort
 
         else
-          iter_num.times { ship_coords << rows.sample + cell_seed[1] }
+          unless cell_seed[0] == 'A'
+            change = [1, -1].sample
+          else
+            change = 1
+          end
+
+          iter_num.times do
+            new_row = (cell_seed[0].ord + change).chr
+            ship_coords << rows.sample + cell_seed[/[\d]+/].to_s
+          end
           ship_coords = ship_coords.sort
         end
       end
@@ -51,9 +64,9 @@ class Game
     if selection.downcase == 'p'
       place_cp_ships
 
-      puts "\n\n You are now playing BATTLESHIP\n\n" +
+      puts "\n\n*** You are now playing BATTLESHIP ***\n\n" +
       "I have laid out my ships on the grid.\n" +
-      "You now need to lay out your two ships.\n"
+      "You now need to lay out your ships.\n"
 
       @pl_ships.each do |ship, attr|
         puts "- The #{@pl_ships[ship].name} is #{@pl_ships[ship].length} units long.\n"
@@ -74,13 +87,13 @@ class Game
         puts "#{@pl_board.render(true)}"
       end
 
-
+      puts "\n" * 2
+      puts "====CP Board====\n#{@cp_board.render(true)}\n\n"
       puts "==Player Board==\n#{@pl_board.render(true)}"
-      puts "====CP Board====\n#{@cp_board.render(true)}"
+
     end
 
   end
 end
-
 game = Game.new
 game.play_game

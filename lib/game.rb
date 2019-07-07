@@ -57,6 +57,28 @@ class Game
     end
   end
 
+  def place_player_ships
+    @pl_ships.each do |ship, attr|
+      puts "- The #{@pl_ships[ship].name} is #{@pl_ships[ship].length} units long.\n"
+    end
+
+    puts "#{@pl_board.render}"
+
+    @pl_ships.each do |ship, attr|
+      print "Enter the squares for the #{@pl_ships[ship].name} (#{@pl_ships[ship].length} spaces):\n> "
+      ship_coords = gets.chomp.upcase.split(" ")
+
+      until  @pl_board.valid_placement?(@pl_ships[ship], ship_coords)
+        print "Those are invalid coordinates. Please try again:\n> "
+        ship_coords = gets.chomp.upcase.split(" ")
+      end
+
+      @pl_board.place(@pl_ships[ship], ship_coords)
+      puts "#{@pl_board.render(true)}"
+    end
+
+  end
+
   def play_game
     print "Welcome to BATTLESHIP\nEnter p to play. Enter q to quit. --> "
     selection = gets.chomp
@@ -65,30 +87,13 @@ class Game
       place_cp_ships
 
       puts "\n\n*** You are now playing BATTLESHIP ***\n\n" +
-      "I have laid out my ships on the grid.\n" +
-      "You now need to lay out your ships.\n"
+      "I have placed my ships on the grid.\n" +
+      "You now need to place your #{@pl_ships.size} ships.\n"
 
-      @pl_ships.each do |ship, attr|
-        puts "- The #{@pl_ships[ship].name} is #{@pl_ships[ship].length} units long.\n"
-      end
-
-      puts "#{@pl_board.render}"
-
-      @pl_ships.each do |ship, attr|
-        print "Enter the squares for the #{@pl_ships[ship].name} (#{@pl_ships[ship].length} spaces):\n> "
-        ship_coords = gets.chomp.upcase.split(" ")
-
-        until  @pl_board.valid_placement?(@pl_ships[ship], ship_coords)
-          print "Those are invalid coordinates. Please try again:\n> "
-          ship_coords = gets.chomp.upcase.split(" ")
-        end
-
-        @pl_board.place(@pl_ships[ship], ship_coords)
-        puts "#{@pl_board.render(true)}"
-      end
+      place_player_ships
 
       puts "\n" * 2
-      puts "====CP Board====\n#{@cp_board.render(true)}\n\n"
+      puts "====CP Board====\n#{@cp_board.render(true)}\n"
       puts "==Player Board==\n#{@pl_board.render(true)}"
 
     end

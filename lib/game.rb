@@ -94,10 +94,15 @@ class Game
 
       place_player_ships
 
-      puts "\n" * 2
-      puts "====CP Board====\n#{@cp_board.render(true)}\n"
-      puts "==Player Board==\n#{@pl_board.render(true)}"
+      until all_ships_sunk?(@cp_ships) || all_ships_sunk?(@pl_ships)
 
+        puts "\n" * 2
+        puts "====CP Board====\n#{@cp_board.render}\n"
+        puts "==Player Board==\n#{@pl_board.render(true)}"
+        pl_shot
+        cp_shot 
+
+      end
     end
 
   end
@@ -123,6 +128,11 @@ class Game
     targeted_cell = @pl_board.cells[shot_taken]
     targeted_cell.fire_upon
     @cp_available_shots.delete(shot_taken)
+  end
+
+  def all_ships_sunk?(ships)
+    status = ships.map {|key, ship| ship.sunk?}
+    status.all? {|stat| stat == true}
   end
 
 end

@@ -14,8 +14,8 @@ class Game
                   submarine: Ship.new('Submarine', 2)}
     @pl_ships = { cruiser: Ship.new('Cruiser', 3),
                   submarine: Ship.new('Submarine', 2)}
-    @pl_available_shots = @cp_board.keys
-    @cp_available_shots = @pl_board.keys
+    @pl_available_shots = @cp_board.cells.keys
+    @cp_available_shots = @pl_board.cells.keys
   end
 
   def place_cp_ships
@@ -105,10 +105,12 @@ class Game
   def pl_shot
     print "Enter the coordinate for your shot.\n> "
     shot_taken = gets.chomp.upcase
+    shot_taken = shot_taken.strip
 
     until @pl_available_shots.include?(shot_taken)
       print "Please enter a vailid coordinate.\n> "
       shot_taken = gets.chomp.upcase
+      shot_taken = shot_taken.strip
     end
 
     targeted_cell = @cp_board.cells[shot_taken]
@@ -116,6 +118,15 @@ class Game
     @pl_available_shots.delete(shot_taken)
   end
 
+  def cp_shot
+    shot_taken = @cp_available_shots.sample
+    targeted_cell = @pl_board.cells[shot_taken]
+    targeted_cell.fire_upon
+    @cp_available_shots.delete(shot_taken)
+  end
+
 end
 game = Game.new
 game.play_game
+
+binding.pry

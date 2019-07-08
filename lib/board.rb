@@ -58,7 +58,9 @@ class Board
   end
 
   def all_free_spaces?(coords_array)
-    coords_array.all? {|coord| @cells[coord].ship.nil?}
+    if all_valid_coords?(coords_array)
+      coords_array.all? {|coord| @cells[coord].ship.nil?}
+    end
   end
 
   def valid_placement?(ship, coords_array)

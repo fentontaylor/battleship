@@ -100,11 +100,18 @@ class Game
         puts "====CP Board====\n#{@cp_board.render}\n"
         puts "==Player Board==\n#{@pl_board.render(true)}"
         pl_shot
-        cp_shot 
 
+        unless all_ships_sunk?(@cp_ships)
+          cp_shot
+        end
+      end
+
+      if all_ships_sunk?(@cp_ships)
+        puts "\n*!* YOU WON! *!*\n\n"
+      else
+        puts "\n BWAHAHA, I WIN! \n"
       end
     end
-
   end
 
   def pl_shot
@@ -113,7 +120,7 @@ class Game
     shot_taken = shot_taken.strip
 
     until @pl_available_shots.include?(shot_taken)
-      print "Please enter a vailid coordinate.\n> "
+      print "Please enter a valid coordinate.\n> "
       shot_taken = gets.chomp.upcase
       shot_taken = shot_taken.strip
     end

@@ -46,11 +46,9 @@ class ComputerPlayerTest < Minitest::Test
     board = Board.new
     ship = Ship.new("Cruiser", 3)
     board.place(ship, ['A1', 'A2', 'A3'])
-    binding.pry
     @cpu.take_shot(board)
 
-    assert_equal 1, @cpu.shots_taken
-
+    assert_equal 2, @cpu.shots_taken
   end
 
 end

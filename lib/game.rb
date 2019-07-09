@@ -4,7 +4,6 @@ require './lib/board'
 require './lib/human_player'
 require './lib/computer_player'
 require 'colorize'
-require 'pry'
 
 class Game
 
@@ -86,9 +85,6 @@ class Game
         "miss...".colorize(:light_blue)
       end
     "#{pronoun} shot on #{last_shot} was a #{shot_phrase}"
-    # red H "\e[0;31;49mH\e[0m"
-    # light blue M "\e[0;94;49mM\e[0m"
-    # Sunk X "\e[0;39;41mX\e[0m"
   end
 
 end

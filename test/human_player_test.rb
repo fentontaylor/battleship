@@ -40,6 +40,7 @@ class HumanPlayerTest < Minitest::Test
   end
 
   def test_place_player_ships_puts_ships_on_cells
+    skip
     @player.place_player_ships
     # Manually enter 'a1 a2 a3' for cruiser, 'd3 d4' for submarine
     player_board_cells = @player.board.cells
@@ -51,4 +52,13 @@ class HumanPlayerTest < Minitest::Test
     cell_a1 = player_board_cells["A1"]
     assert_equal "Cruiser", cell_a1.ship.name
   end
+
+  def test_already_fired_at_false_for_all_coords_in_new_game
+    cells = @player.board.cells.keys
+    all_not_fired_at = cells.none? do |cell|
+      @player.already_fired_at?(cell)
+    end
+    assert all_not_fired_at
+  end
+  
 end

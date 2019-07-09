@@ -24,16 +24,16 @@ class Game
       "You now need to place your #{@player.ships.size} ships.\n"
 
       @player.place_player_ships
+      puts print_game_board
 
       until all_ships_sunk?(@cpu.ships) || all_ships_sunk?(@player.ships)
-        print_game_board
         @player.take_shot(@cpu.board)
 
         unless all_ships_sunk?(@cpu.ships)
           @cpu.take_shot(@player.board)
         end
 
-        print_game_board
+        print_game_board(true)
       end
 
       if all_ships_sunk?(@cpu.ships)
@@ -44,17 +44,40 @@ class Game
     end
   end
 
-  def print_game_board
-    puts "\n" * 2
-    puts "=========CP Board=========\n" +
-    "#{@cpu.board.render}\n"
-    puts "=======Player Board=======\n" +
-    "#{@player.board.render(true)}"
+  def print_game_board(result = false)
+    if result
+      puts "=========CP Board=========" +
+      "Shot status: #{report_shot_status(@cpu)}"
+    else
+      puts "=========CP Board=========\n"
+    end
+    puts "#{@cpu.board.render}\n"
+    if result
+      puts "=======Player Board=======" +
+      "Shot status: #{report_shot_status(@player)}"
+    else
+      puts "=======Player Board=======\n"
+    end
+    puts "#{@player.board.render(true)}"
   end
 
   def all_ships_sunk?(ships)
     status = ships.map {|key, ship| ship.sunk?}
     status.all? {|stat| stat == true}
+  end
+
+  def report_shot_status(entity)
+    last_shot = entity.shots_taken.last
+    pronoun = entity.class == HumanPlayer ? "Your" : "My"
+    targeted_board = if entity.class == HumanPlayer
+        @cpu.board
+      else
+        @player.board
+      end
+      targeted_cell = targeted_board.cells[last_shot]
+    shot_result = targeted_cell.render
+    "  #{pronoun} shot on #{last_shot} was #{shot_result}."
+
   end
 
 end

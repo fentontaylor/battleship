@@ -1,5 +1,5 @@
 class ComputerPlayer
-  attr_reader :board, :ships
+  attr_reader :board, :ships, :shots_taken
   def initialize(size = 4)
     @size = size
     @board = Board.new(size)
@@ -56,6 +56,7 @@ class ComputerPlayer
     shot_coord = @available_shots.sample
     targeted_cell = targeted_board.cells[shot_coord]
     targeted_cell.fire_upon
+    @shots_taken << shot_coord
     @available_shots.delete(shot_coord)
   end
 end

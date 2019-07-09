@@ -1,5 +1,5 @@
 class HumanPlayer
-  attr_reader :board, :ships
+  attr_reader :board, :ships, :shots_taken
   def initialize(size = 4)
     @size = size
     @board = Board.new(size)

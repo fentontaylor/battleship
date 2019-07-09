@@ -1,8 +1,8 @@
 class Game
 
-  def initialize
-    @player = HumanPlayer.new
-    @cpu = ComputerPlayer.new
+  def initialize(size = 4)
+    @player = HumanPlayer.new(size)
+    @cpu = ComputerPlayer.new(size)
   end
 
   def play_game

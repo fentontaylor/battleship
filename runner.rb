@@ -12,7 +12,17 @@ until selection == 'q'
   selection = gets.chomp.downcase
 
   if selection == 'p'
-    game = Game.new
+    valid_size = false
+    until valid_size
+      print "Enter board side length (4-12): "
+      size = gets.chomp.to_i
+      if size < 4 || size > 12
+        puts "That is not a valid size."
+      else
+        valid_size = true
+      end
+    end
+    game = Game.new(size)
     game.play_game
   else
     puts "\nOkay, buhbye!"

@@ -6,7 +6,6 @@ require 'pry'
 class Game
   attr_reader :cp_board, :pl_board, :cp_ships, :pl_ships
 
-
   def initialize(size = 4)
     @cp_board = Board.new(size)
     @pl_board = Board.new(size)
@@ -59,20 +58,30 @@ class Game
     end
   end
 
-  def place_player_ships
+  def player_ship_info
     @pl_ships.each do |ship, attr|
-      puts "- The #{@pl_ships[ship].name} is #{@pl_ships[ship].length} units long.\n"
+      name = @pl_ships[ship].name
+      length = @pl_ships[ship].length
+      puts "- The #{name} is #{length} units long.\n"
     end
+  end
+
+  def place_player_ships
+    player_ship_info
 
     puts "#{@pl_board.render}"
 
     @pl_ships.each do |ship, attr|
-      print "Enter the squares for the #{@pl_ships[ship].name} (#{@pl_ships[ship].length} spaces):\n> "
-      ship_coords = gets.chomp.upcase.split(" ")
+      name = @pl_ships[ship].name
+      length = @pl_ships[ship].length
+      print "Enter the squares for the #{name} (#{length} spaces):\n> "
+      ship_coords_string = gets.chomp.upcase
+      ship_coords = ship_coords_string.split(" ")
 
       until  @pl_board.valid_placement?(@pl_ships[ship], ship_coords)
         print "Those are invalid coordinates. Please try again:\n> "
-        ship_coords = gets.chomp.upcase.split(" ")
+        ship_coords_string = gets.chomp.upcase
+        ship_coords = ship_coords_string.split(" ")
       end
 
       @pl_board.place(@pl_ships[ship], ship_coords)
@@ -88,22 +97,21 @@ class Game
     if selection.downcase == 'p'
       place_cp_ships
 
-      puts "\n\n*** You are now playing BATTLESHIP ***\n\n" +
+      puts "\n\u{26F5} You are now playing BATTLESHIP \u{26F5}\n\n" +
       "I have placed my ships on the grid.\n" +
       "You now need to place your #{@pl_ships.size} ships.\n"
 
       place_player_ships
 
       until all_ships_sunk?(@cp_ships) || all_ships_sunk?(@pl_ships)
-
-        puts "\n" * 2
-        puts "====CP Board====\n#{@cp_board.render}\n"
-        puts "==Player Board==\n#{@pl_board.render(true)}"
+        print_game_board
         pl_shot
 
         unless all_ships_sunk?(@cp_ships)
           cp_shot
         end
+
+        print_game_board
       end
 
       if all_ships_sunk?(@cp_ships)
@@ -114,27 +122,35 @@ class Game
     end
   end
 
+  def print_game_board
+    puts "\n" * 2
+    puts "=========CP Board=========\n" +
+    "#{@cp_board.render}\n"
+    puts "=======Player Board=======\n" +
+    "#{@pl_board.render(true)}"
+  end
+
   def pl_shot
     print "Enter the coordinate for your shot.\n> "
-    shot_taken = gets.chomp.upcase
-    shot_taken = shot_taken.strip
+    shot_coord = gets.chomp.upcase
+    shot_coord = shot_coord.strip
 
-    until @pl_available_shots.include?(shot_taken)
+    until @pl_available_shots.include?(shot_coord)
       print "Please enter a valid coordinate.\n> "
-      shot_taken = gets.chomp.upcase
-      shot_taken = shot_taken.strip
+      shot_coord = gets.chomp.upcase
+      shot_coord = shot_coord.strip
     end
 
-    targeted_cell = @cp_board.cells[shot_taken]
+    targeted_cell = @cp_board.cells[shot_coord]
     targeted_cell.fire_upon
-    @pl_available_shots.delete(shot_taken)
+    @pl_available_shots.delete(shot_coord)
   end
 
   def cp_shot
-    shot_taken = @cp_available_shots.sample
-    targeted_cell = @pl_board.cells[shot_taken]
+    shot_coord = @cp_available_shots.sample
+    targeted_cell = @pl_board.cells[shot_coord]
     targeted_cell.fire_upon
-    @cp_available_shots.delete(shot_taken)
+    @cp_available_shots.delete(shot_coord)
   end
 
   def all_ships_sunk?(ships)
@@ -146,4 +162,4 @@ end
 game = Game.new
 game.play_game
 
-binding.pry
+# binding.pry

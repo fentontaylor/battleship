@@ -40,7 +40,6 @@ class HumanPlayerTest < Minitest::Test
   end
 
   def test_place_player_ships_puts_ships_on_cells
-    skip
     @player.place_player_ships
     # Manually enter 'a1 a2 a3' for cruiser, 'd3 d4' for submarine
     player_board_cells = @player.board.cells
@@ -54,11 +53,23 @@ class HumanPlayerTest < Minitest::Test
   end
 
   def test_already_fired_at_false_for_all_coords_in_new_game
-    cells = @player.board.cells.keys
+    board = Board.new
+    cells = board.cells
     all_not_fired_at = cells.none? do |cell|
       @player.already_fired_at?(cell)
     end
     assert all_not_fired_at
   end
-  
+
+  def test_take_shot
+    board = Board.new
+    ship = Ship.new("Cruiser", 3)
+    board.place(ship, ['A1', 'A2', 'A3'])
+    # manually enter 'A1' for coordinate to fire on
+    @player.take_shot(board)
+
+    assert_equal 2, ship.health
+    assert @player.already_fired_at?('A1')
+  end
+
 end

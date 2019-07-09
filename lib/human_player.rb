@@ -1,5 +1,5 @@
 class HumanPlayer
-
+  attr_reader :board, :ships
   def initialize(size = 4)
     @size = size
     @board = Board.new(size)
@@ -20,7 +20,7 @@ class HumanPlayer
   end
 
   def place_player_ships
-    player_ship_info
+    ship_info
 
     puts "#{@board.render}"
 
@@ -42,20 +42,31 @@ class HumanPlayer
     end
   end
 
-  def take_shot
+  def already_fired_at?(shot_coord)
+    @shots_taken.include?(shot_coord)
+  end
+
+  def take_shot(targeted_board)
     print "Enter the coordinate for your shot.\n> "
     shot_coord = gets.chomp.upcase
     shot_coord = shot_coord.strip
 
-    until @pl_available_shots.include?(shot_coord)
+    while already_fired_at?(shot_coord)
+      print "You already fired at that coordinate. Pick again.\n> "
+      shot_coord = gets.chomp.upcase
+      shot_coord = shot_coord.strip
+    end
+
+    until @available_shots.include?(shot_coord)
       print "Please enter a valid coordinate.\n> "
       shot_coord = gets.chomp.upcase
       shot_coord = shot_coord.strip
     end
 
-    targeted_cell = @cp_board.cells[shot_coord]
+    targeted_cell = targeted_board.cells[shot_coord]
     targeted_cell.fire_upon
-    @pl_available_shots.delete(shot_coord)
+    @shots_taken << shot_coord
+    @available_shots.delete(shot_coord)
   end
 
 end

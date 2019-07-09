@@ -75,11 +75,13 @@ class Game
       name = @pl_ships[ship].name
       length = @pl_ships[ship].length
       print "Enter the squares for the #{name} (#{length} spaces):\n> "
-      ship_coords = gets.chomp.upcase.split(" ")
+      ship_coords_string = gets.chomp.upcase
+      ship_coords = ship_coords_string.split(" ")
 
       until  @pl_board.valid_placement?(@pl_ships[ship], ship_coords)
         print "Those are invalid coordinates. Please try again:\n> "
-        ship_coords = gets.chomp.upcase.split(" ")
+        ship_coords_string = gets.chomp.upcase
+        ship_coords = ship_coords_string.split(" ")
       end
 
       @pl_board.place(@pl_ships[ship], ship_coords)
@@ -108,6 +110,7 @@ class Game
         unless all_ships_sunk?(@cp_ships)
           cp_shot
         end
+
         print_game_board
       end
 

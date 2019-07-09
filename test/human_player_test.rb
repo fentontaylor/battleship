@@ -19,6 +19,7 @@ class HumanPlayerTest < Minitest::Test
     refute_empty @player.ships
     ships = @player.ships.values
     assert_instance_of Ship, ships[0]
+    assert_equal [], @player.shots_taken
   end
 
   def test_ship_info
@@ -70,6 +71,7 @@ class HumanPlayerTest < Minitest::Test
 
     assert_equal 2, ship.health
     assert @player.already_fired_at?('A1')
+    assert_equal 'A1', @player.shots_taken.last
   end
 
 end

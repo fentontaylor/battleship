@@ -12,15 +12,16 @@ class HumanPlayer
   end
 
   def ship_info
-    @ships.each do |ship, attr|
+    info = @ships.map do |ship, attr|
       name = @ships[ship].name
       length = @ships[ship].length
-      puts "- The #{name} is #{length} units long.\n"
+      "- The #{name} is #{length} units long.\n"
     end
+    info.join
   end
 
   def place_player_ships
-    ship_info
+    puts ship_info
 
     puts "#{@board.render}"
 

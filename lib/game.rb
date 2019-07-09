@@ -107,9 +107,9 @@ class Game
       end
 
       if all_ships_sunk?(@cp_ships)
-        puts "\n*!* YOU WON! *!*\n\n"
+        puts "\n \u{1F604} YOU WON! \u{1F604}\n\n"
       else
-        puts "\n BWAHAHA, I WIN! \n"
+        puts "\n \u{1F61D} BWAHAHA, I WIN! \u{1F61D}\n"
       end
     end
   end

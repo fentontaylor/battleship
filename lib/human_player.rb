@@ -48,20 +48,18 @@ class HumanPlayer
   end
 
   def take_shot(targeted_board)
-    print "Enter the coordinate for your shot.\n> "
-    shot_coord = gets.chomp.upcase
-    shot_coord = shot_coord.strip
+    ready_to_fire = false
+    until ready_to_fire
+      print "Enter the coordinate for your shot.\n> "
+      shot_coord = gets.chomp.upcase.strip
 
-    while already_fired_at?(shot_coord)
-      print "You already fired at that coordinate. Pick again.\n> "
-      shot_coord = gets.chomp.upcase
-      shot_coord = shot_coord.strip
-    end
-
-    until @available_shots.include?(shot_coord)
-      print "Please enter a valid coordinate.\n> "
-      shot_coord = gets.chomp.upcase
-      shot_coord = shot_coord.strip
+      if already_fired_at?(shot_coord)
+        puts "You already fired at that coordinate."
+      elsif !@available_shots.include?(shot_coord)
+        puts "That is not a valid coordinate."
+      else
+        ready_to_fire = true
+      end
     end
 
     targeted_cell = targeted_board.cells[shot_coord]

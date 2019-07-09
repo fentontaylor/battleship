@@ -3,6 +3,7 @@ require './lib/ship'
 require './lib/board'
 require './lib/human_player'
 require './lib/computer_player'
+require 'colorize'
 require 'pry'
 
 class Game
@@ -45,16 +46,17 @@ class Game
   end
 
   def print_game_board(result = false)
+    puts "\n\n"
     if result
       puts "=========CP Board=========" +
-      "Shot status: #{report_shot_status(@cpu)}"
+      "  Shot status: #{report_shot_status(@cpu)}"
     else
       puts "=========CP Board=========\n"
     end
     puts "#{@cpu.board.render}\n"
     if result
       puts "=======Player Board=======" +
-      "Shot status: #{report_shot_status(@player)}"
+      "  Shot status: #{report_shot_status(@player)}"
     else
       puts "=======Player Board=======\n"
     end
@@ -76,8 +78,17 @@ class Game
       end
       targeted_cell = targeted_board.cells[last_shot]
     shot_result = targeted_cell.render
-    "  #{pronoun} shot on #{last_shot} was #{shot_result}."
-
+    shot_phrase = if shot_result == "\e[0;39;41mX\e[0m"
+        "FATAL BLAST!".colorize(:background => :red)
+      elsif shot_result == "\e[0;31;49mH\e[0m"
+        "HIT!".colorize(:red)
+      else
+        "miss...".colorize(:light_blue)
+      end
+    "#{pronoun} shot on #{last_shot} was a #{shot_phrase}"
+    # red H "\e[0;31;49mH\e[0m"
+    # light blue M "\e[0;94;49mM\e[0m"
+    # Sunk X "\e[0;39;41mX\e[0m"
   end
 
 end

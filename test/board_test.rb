@@ -3,9 +3,9 @@ require './lib/ship'
 require './lib/board'
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'colorize'
 
 class BoardTest < Minitest::Test
-
   def setup
     @board = Board.new
   end

@@ -25,7 +25,6 @@ until selection == 'q'
 
     game = Game.new(size)
 
-
     add_custom = 'y'
     until add_custom == 'n'
       puts "\nCurrent fleet:"
@@ -51,35 +50,32 @@ until selection == 'q'
       end
     end
 
-    game.play_game
-  else
-    puts "\nOkay, buhbye!"
-  end
-end
+    game.cpu.place_cp_ships
 
-def play_game
-  @cpu.place_cp_ships
+    puts "\n\u{26F5} You are now playing BATTLESHIP \u{26F5}\n\n" +
+    "I have placed my ships on the grid.\n" +
+    "You now need to place your #{game.player.ships.size} ships.\n"
 
-  puts "\n\u{26F5} You are now playing BATTLESHIP \u{26F5}\n\n" +
-  "I have placed my ships on the grid.\n" +
-  "You now need to place your #{@player.ships.size} ships.\n"
+    game.player.place_player_ships
+    puts game.print_game_board
 
-  @player.place_player_ships
-  puts print_game_board
+    until game.all_ships_sunk?(game.cpu.ships) || game.all_ships_sunk?(game.player.ships)
+      game.player.take_shot(game.cpu.board)
 
-  until all_ships_sunk?(@cpu.ships) || all_ships_sunk?(@player.ships)
-    @player.take_shot(@cpu.board)
+      unless game.all_ships_sunk?(game.cpu.ships)
+        game.cpu.take_shot(game.player.board)
+      end
 
-    unless all_ships_sunk?(@cpu.ships)
-      @cpu.take_shot(@player.board)
+      game.print_game_board(true)
     end
 
-    print_game_board(true)
-  end
+    if game.all_ships_sunk?(game.cpu.ships)
+      puts "\n \u{1F604} YOU WON! \u{1F604}\n\n"
+    else
+      puts "\n \u{1F61D} BWAHAHA, I WIN! \u{1F61D}\n"
+    end
 
-  if all_ships_sunk?(@cpu.ships)
-    puts "\n \u{1F604} YOU WON! \u{1F604}\n\n"
   else
-    puts "\n \u{1F61D} BWAHAHA, I WIN! \u{1F61D}\n"
+    puts "\nOkay, buhbye!"
   end
 end

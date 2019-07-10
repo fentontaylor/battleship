@@ -23,6 +23,7 @@ until selection == 'q'
       end
     end
     game = Game.new(size)
+    game.player.ships[:jungus] = Ship.new("Jungus", 5)
     game.play_game
   else
     puts "\nOkay, buhbye!"

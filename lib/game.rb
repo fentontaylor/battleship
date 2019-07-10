@@ -1,5 +1,5 @@
 class Game
-
+  attr_reader :player, :cpu
   def initialize(size = 4)
     @player = HumanPlayer.new(size)
     @cpu = ComputerPlayer.new(size)

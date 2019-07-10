@@ -25,8 +25,11 @@ until selection == 'q'
 
     game = Game.new(size)
 
+
     add_custom = 'y'
     until add_custom == 'n'
+      puts "\nCurrent fleet:"
+      puts game.player.ship_info
       print "Would you like to add an extra custom ship? Y / N: "
       add_custom = gets.chomp.downcase
       if add_custom == 'y'

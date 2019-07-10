@@ -22,5 +22,9 @@ class GameTest < Minitest::Test
     refute @game.all_ships_sunk?(@game.player.ships)
   end
 
+  def test_fleet_status
+    assert_equal "| #{ships[key].name}: (#{ships[key].length}) |" , fleet_status(@game.player)
+    #assert_equal , fleet_status(@game.player)
+  end
 
 end

@@ -2,6 +2,7 @@ require './lib/cell'
 require './lib/ship'
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'colorize'
 
 class CellTest < Minitest::Test
 
@@ -42,25 +43,24 @@ class CellTest < Minitest::Test
   end
 
   def test_render_if_no_ship_present
-    assert_equal ".", @cell.render
-    assert_equal ".", @cell.render(true)
+    assert_equal "\e[0;34;49m.\e[0m", @cell.render
+    assert_equal "\e[0;34;49m.\e[0m", @cell.render(true)
     @cell.fire_upon
-    assert_equal "M", @cell.render
+    assert_equal "\e[0;94;49mM\e[0m", @cell.render
   end
 
   def test_render_if_ship_present
     @cell.place_ship(@cruiser)
-    assert_equal ".", @cell.render
-    assert_equal "S", @cell.render(true)
+    assert_equal "\e[0;34;49m.\e[0m", @cell.render
+    assert_equal "\e[0;32;49mS\e[0m", @cell.render(true)
     @cell.fire_upon
-    assert_equal "H", @cell.render
+    assert_equal "\e[0;31;49mH\e[0m", @cell.render
   end
 
   def test_render_when_a_hit_sinks_the_ship
     @cell.place_ship(@cruiser)
     2.times { @cell.ship.hit }
     @cell.fire_upon
-    assert_equal "X", @cell.render
+    assert_equal "\e[0;39;41mX\e[0m", @cell.render
   end
-
 end

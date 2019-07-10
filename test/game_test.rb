@@ -12,6 +12,8 @@ class GameTest < Minitest::Test
 
   def setup
     @game = Game.new
+    @cruiser = Ship.new("Cruiser", 3)
+    @submarine = Ship.new("Submarine", 2)
   end
 
   def test_it_exists
@@ -23,8 +25,12 @@ class GameTest < Minitest::Test
   end
 
   def test_fleet_status
-    assert_equal "| #{ships[key].name}: (#{ships[key].length}) |" , fleet_status(@game.player)
-    #assert_equal , fleet_status(@game.player)
+    assert_equal ["| Cruiser: (3) |".colorize(:green),"| Submarine: (2) |".colorize(:green)] , @game.fleet_status(@game.player)
+  end
+
+  def test_report_shot_status
+    @game.cpu.board
+    assert_equal "My shot on B4 was a HIT!", @game.report_shot_status(@game.player.take_shot("B4"))
   end
 
 end

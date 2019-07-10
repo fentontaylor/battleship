@@ -22,8 +22,32 @@ until selection == 'q'
         valid_size = true
       end
     end
+
     game = Game.new(size)
-    game.player.ships[:jungus] = Ship.new("Jungus", 5)
+
+    add_custom = 'y'
+    until add_custom == 'n'
+      print "Would you like to add an extra custom ship? Y / N: "
+      add_custom = gets.chomp.downcase
+      if add_custom == 'y'
+        print "Give your custom ship a name: "
+        custom_name = gets.chomp
+
+        valid_length = false
+        until valid_length
+          print "Choose a length for #{custom_name}: "
+          custom_length = gets.chomp.to_i
+          if custom_length > size || custom_length < 0
+            puts "That is not a valid length."
+          else
+            valid_length = true
+          end
+        end
+        game.player.ships[custom_name.downcase.to_sym] = Ship.new(custom_name, custom_length)
+        game.cpu.ships[custom_name.downcase.to_sym] = Ship.new(custom_name, custom_length)
+      end
+    end
+
     game.play_game
   else
     puts "\nOkay, buhbye!"

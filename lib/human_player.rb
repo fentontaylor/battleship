@@ -17,7 +17,7 @@ class HumanPlayer
       length = @ships[ship].length
       "- The #{name} is #{length} units long.\n"
     end
-    info.join
+    info.join + "\n"
   end
 
   def place_player_ships

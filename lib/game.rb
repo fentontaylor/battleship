@@ -5,8 +5,6 @@ class Game
     @cpu = ComputerPlayer.new(size)
   end
 
-
-
   def print_game_board(show_result = false)
     puts "\n\n"
     puts "_" * 75
@@ -44,21 +42,26 @@ class Game
   def report_shot_status(entity)
     last_shot = entity.shots_taken.last
     pronoun = entity.class == HumanPlayer ? "Your" : "My"
-    targeted_board = if entity.class == HumanPlayer
+    targeted_board =
+      if entity.class == HumanPlayer
         @cpu.board
       else
         @player.board
       end
     targeted_cell = targeted_board.cells[last_shot]
     shot_result = targeted_cell.render
-    shot_phrase = if shot_result == "\e[0;39;41mX\e[0m"
-        "\u{1F480}" + "FATAL BLAST!".colorize(:background => :red) + "\u{1F480}"
+    shot_phrase =
+      if shot_result == "\e[0;39;41mX\e[0m"
+        "\u{1F480}" +
+        "FATAL BLAST!".colorize(:background => :red) +
+        "\u{1F480}"
       elsif shot_result == "\e[0;31;49mH\e[0m"
-        "\u{1F4A5}" + "HIT!".colorize(:red) + "\u{1F4A5}"
+        "\u{1F4A5}" +
+        "HIT!".colorize(:red) +
+        "\u{1F4A5}"
       else
         "miss...".colorize(:light_blue)
       end
     "#{pronoun} shot on #{last_shot} was a #{shot_phrase}"
   end
-
 end

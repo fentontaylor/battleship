@@ -33,27 +33,19 @@ class Game
   end
 end
 
-def print_game_board(result = false)
+def print_game_board(show_result = false)
   puts "\n\n"
   puts "_" * 75
-  if result
-    puts "___ CP BOARD #{'_' * 62}"
-    print "Fleet Status: "
-    puts fleet_status(@cpu).join
-    puts "Shot  Status: #{report_shot_status(@cpu)}\n\n"
-  else
-    puts "___ CP BOARD #{'_' * 62}"
-  end
+  puts "___ CP BOARD #{'_' * 62}"
+  print "Fleet Status: "
+  puts fleet_status(@cpu).join
+  puts "Shot  Status: #{report_shot_status(@cpu)}\n\n" if show_result
   puts "#{@cpu.board.render}\n"
   puts "_" * 75
-  if result
-    puts "___ PLAYER BOARD #{'_' * 58}"
-    print "Fleet Status: "
-    puts fleet_status(@player).join
-    puts "Shot  Status: #{report_shot_status(@player)}\n\n"
-  else
-    puts "___ PLAYER BOARD #{'_' * 58}"
-  end
+  puts "___ PLAYER BOARD #{'_' * 58}"
+  print "Fleet Status: "
+  puts fleet_status(@player).join
+  puts "Shot  Status: #{report_shot_status(@player)}\n\n" if show_result
   puts "#{@player.board.render(true)}"
   puts "_" * 75
 end

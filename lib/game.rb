@@ -35,25 +35,44 @@ end
 
 def print_game_board(result = false)
   puts "\n\n"
+  puts "_" * 75
   if result
-    puts "=========CP Board=========" +
-    "  Shot status: #{report_shot_status(@cpu)}"
+    puts "___ CP BOARD #{'_' * 62}"
+    print "Fleet Status: "
+    puts fleet_status(@cpu).join
+    puts "Shot  Status: #{report_shot_status(@cpu)}\n\n"
   else
-    puts "=========CP Board=========\n"
+    puts "___ CP BOARD #{'_' * 62}"
   end
   puts "#{@cpu.board.render}\n"
+  puts "_" * 75
   if result
-    puts "=======Player Board=======" +
-    "  Shot status: #{report_shot_status(@player)}"
+    puts "___ PLAYER BOARD #{'_' * 58}"
+    print "Fleet Status: "
+    puts fleet_status(@player).join
+    puts "Shot  Status: #{report_shot_status(@player)}\n\n"
   else
-    puts "=======Player Board=======\n"
+    puts "___ PLAYER BOARD #{'_' * 58}"
   end
   puts "#{@player.board.render(true)}"
+  puts "_" * 75
 end
 
 def all_ships_sunk?(ships)
   status = ships.map {|key, ship| ship.sunk?}
   status.all? {|stat| stat == true}
+end
+
+def fleet_status(entity)
+  ships = entity.ships
+  status = ships.map do |key, ship|
+    if ship.sunk?
+      "| #{ships[key].name}: #{ships[key].length} units |".colorize(:red)
+    else
+      "| #{ships[key].name}: #{ships[key].length} units |".colorize(:green)
+    end
+  end
+  status
 end
 
 def report_shot_status(entity)
@@ -64,7 +83,7 @@ def report_shot_status(entity)
     else
       @player.board
     end
-    targeted_cell = targeted_board.cells[last_shot]
+  targeted_cell = targeted_board.cells[last_shot]
   shot_result = targeted_cell.render
   shot_phrase = if shot_result == "\e[0;39;41mX\e[0m"
       "FATAL BLAST!".colorize(:background => :red)

@@ -44,11 +44,20 @@ class ComputerPlayerTest < Minitest::Test
 
   def test_take_shot
     board = Board.new
-    ship = Ship.new("Cruiser", 3)
-    board.place(ship, ['A1', 'A2', 'A3'])
-    @cpu.take_shot(board)
+    2.times { @cpu.take_shot(board) }
+    assert_equal 2, @cpu.shots_taken.length
 
-    assert_equal 2, @cpu.shots_taken
+    actual = board.cells.select {
+      |cell| board.cells[cell].fired_upon?
+    }
+
+    assert_equal 2, actual.length
+  end
+
+  def test_computer_cant_shoot_at_same_cell_twice
+    board = Board.new
+    16.times { @cpu.take_shot(board) }
+    assert_equal 16, @cpu.shots_taken.uniq.length
   end
 
 end

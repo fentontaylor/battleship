@@ -56,3 +56,30 @@ until selection == 'q'
     puts "\nOkay, buhbye!"
   end
 end
+
+def play_game
+  @cpu.place_cp_ships
+
+  puts "\n\u{26F5} You are now playing BATTLESHIP \u{26F5}\n\n" +
+  "I have placed my ships on the grid.\n" +
+  "You now need to place your #{@player.ships.size} ships.\n"
+
+  @player.place_player_ships
+  puts print_game_board
+
+  until all_ships_sunk?(@cpu.ships) || all_ships_sunk?(@player.ships)
+    @player.take_shot(@cpu.board)
+
+    unless all_ships_sunk?(@cpu.ships)
+      @cpu.take_shot(@player.board)
+    end
+
+    print_game_board(true)
+  end
+
+  if all_ships_sunk?(@cpu.ships)
+    puts "\n \u{1F604} YOU WON! \u{1F604}\n\n"
+  else
+    puts "\n \u{1F61D} BWAHAHA, I WIN! \u{1F61D}\n"
+  end
+end

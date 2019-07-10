@@ -1,6 +1,4 @@
-require 'colorize'
 class Cell
-
   attr_reader :coordinate, :ship
 
   def initialize(coordinate)
@@ -41,5 +39,4 @@ class Cell
       show_ship && !empty? ? "S".colorize(:green) : ".".colorize(:blue)
     end
   end
-
 end

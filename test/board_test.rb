@@ -3,9 +3,9 @@ require './lib/ship'
 require './lib/board'
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'colorize'
 
 class BoardTest < Minitest::Test
-
   def setup
     @board = Board.new
   end
@@ -123,7 +123,8 @@ class BoardTest < Minitest::Test
       "B . . . . \n" +
       "C . . . . \n" +
       "D . . . . \n"
-    assert_equal expected, @board.render
+    actual = @board.render
+    assert_equal expected, actual
 
     @board.cells["A1"].fire_upon
     expected_2 =
@@ -132,7 +133,8 @@ class BoardTest < Minitest::Test
       "B . . . . \n" +
       "C . . . . \n" +
       "D . . . . \n"
-    assert_equal expected_2, @board.render
+    actual_2 = @board.render
+    assert_equal expected_2, actual_2
 
     @board.cells["B1"].fire_upon
     expected_3 =
@@ -141,7 +143,8 @@ class BoardTest < Minitest::Test
       "B M . . . \n" +
       "C . . . . \n" +
       "D . . . . \n"
-    assert_equal expected_3, @board.render
+    actual_3 = @board.render
+    assert_equal expected_3, actual_3
 
     @board.cells["A2"].fire_upon
     @board.cells["A3"].fire_upon
@@ -151,20 +154,22 @@ class BoardTest < Minitest::Test
       "B M . . . \n" +
       "C . . . . \n" +
       "D . . . . \n"
-    assert_equal expected_4, @board.render
+    actual_4 = @board.render
+    assert_equal expected_4, actual_4
   end
 
   def test_board_render_visible_ship
     sub = Ship.new("Submarine", 2)
 
     @board.place(sub, ["D3", "D4"])
-    expected_true =
-    "  1 2 3 4 \n" +
-    "A . . . . \n" +
-    "B . . . . \n" +
-    "C . . . . \n" +
-    "D . . S S \n"
-    assert_equal expected_true, @board.render(true)
+    expected =
+      "  1 2 3 4 \n" +
+      "A . . . . \n" +
+      "B . . . . \n" +
+      "C . . . . \n" +
+      "D . . S S \n"
+    actual = @board.render(true)
+    assert_equal expected, actual
 
     @board.cells["A1"].fire_upon
     expected_2 =
@@ -173,7 +178,8 @@ class BoardTest < Minitest::Test
       "B . . . . \n" +
       "C . . . . \n" +
       "D . . S S \n"
-    assert_equal expected_2, @board.render(true)
+      actual_2 = @board.render(true)
+      assert_equal expected, actual_2
 
     @board.cells["D3"].fire_upon
     expected_3 =
@@ -182,7 +188,8 @@ class BoardTest < Minitest::Test
       "B . . . . \n" +
       "C . . . . \n" +
       "D . . H S \n"
-    assert_equal expected_3, @board.render(true)
+    actual_3 = @board.render
+    assert_equal expected, actual_3
 
     @board.cells["D4"].fire_upon
     expected_4 =
@@ -191,6 +198,7 @@ class BoardTest < Minitest::Test
       "B . . . . \n" +
       "C . . . . \n" +
       "D . . X X \n"
-    assert_equal expected_4, @board.render(true)
+    actual_4 = @board.render(true)
+    assert_equal expected, actual_4
   end
 end

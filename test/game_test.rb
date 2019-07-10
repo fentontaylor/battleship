@@ -24,12 +24,26 @@ class GameTest < Minitest::Test
   def test_all_ships_sunk?
     refute @game.all_ships_sunk?(@game.player.ships)
     3.times { @game.player.ships[:cruiser].hit }
+    refute @game.all_ships_sunk?(@game.player.ships)
     2.times { @game.player.ships[:submarine].hit }
     assert @game.all_ships_sunk?(@game.player.ships)
   end
 
   def test_fleet_status
-    assert_equal ["| Cruiser: (3) |".colorize(:green),"| Submarine: (2) |".colorize(:green)] , @game.fleet_status(@game.player)
+    actual = @game.fleet_status(@game.player)
+    expected = [
+      "| Cruiser: (3) |".colorize(:green),
+      "| Submarine: (2) |".colorize(:green)
+    ]
+    assert_equal expected, actual
+
+    3.times { @game.player.ships[:cruiser].hit }
+    actual_2 = @game.fleet_status(@game.player)
+    expected_2 = [
+      "| Cruiser: (3) |".colorize(:red),
+      "| Submarine: (2) |".colorize(:green)
+    ]
+    assert_equal  expected_2, actual_2
   end
 
   def test_report_shot_status

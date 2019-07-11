@@ -123,7 +123,10 @@ class BoardTest < Minitest::Test
       "B . . . . \n" +
       "C . . . . \n" +
       "D . . . . \n"
+
     actual = @board.render
+    actual = actual.gsub(/[^\.A-Z1-4 \n]/,'')
+    actual = actual.gsub(/\d{2,}/, '')
     assert_equal expected, actual
 
     @board.cells["A1"].fire_upon
@@ -134,6 +137,8 @@ class BoardTest < Minitest::Test
       "C . . . . \n" +
       "D . . . . \n"
     actual_2 = @board.render
+    actual_2 = actual_2.gsub(/[^\.A-Z1-4 \n]/,'')
+    actual_2 = actual_2.gsub(/\d{2,}/,'')
     assert_equal expected_2, actual_2
 
     @board.cells["B1"].fire_upon
@@ -144,8 +149,10 @@ class BoardTest < Minitest::Test
       "C . . . . \n" +
       "D . . . . \n"
     actual_3 = @board.render
+    actual_3 = actual_3.gsub(/[^\.A-Z1-4 \n]/,'')
+    actual_3 = actual_3.gsub(/\d{2,}/,'')
     assert_equal expected_3, actual_3
-
+    #
     @board.cells["A2"].fire_upon
     @board.cells["A3"].fire_upon
     expected_4 =
@@ -155,6 +162,8 @@ class BoardTest < Minitest::Test
       "C . . . . \n" +
       "D . . . . \n"
     actual_4 = @board.render
+    actual_4 = actual_4.gsub(/[^\.A-Z1-4 \n]/,'')
+    actual_4 = actual_4.gsub(/\d{2,}/,'')
     assert_equal expected_4, actual_4
   end
 
@@ -169,6 +178,8 @@ class BoardTest < Minitest::Test
       "C . . . . \n" +
       "D . . S S \n"
     actual = @board.render(true)
+    actual = actual.gsub(/[^\.A-Z1-4 \n]/,'')
+    actual = actual.gsub(/\d{2,}/,'')
     assert_equal expected, actual
 
     @board.cells["A1"].fire_upon
@@ -179,7 +190,9 @@ class BoardTest < Minitest::Test
       "C . . . . \n" +
       "D . . S S \n"
       actual_2 = @board.render(true)
-      assert_equal expected, actual_2
+      actual_2 = actual_2.gsub(/[^\.A-Z1-4 \n]/,'')
+      actual_2 = actual_2.gsub(/\d{2,}/,'')
+      assert_equal expected_2, actual_2
 
     @board.cells["D3"].fire_upon
     expected_3 =
@@ -188,8 +201,10 @@ class BoardTest < Minitest::Test
       "B . . . . \n" +
       "C . . . . \n" +
       "D . . H S \n"
-    actual_3 = @board.render
-    assert_equal expected, actual_3
+    actual_3 = @board.render(true)
+    actual_3 = actual_3.gsub(/[^\.A-Z1-4 \n]/,'')
+    actual_3 = actual_3.gsub(/\d{2,}/,'')
+    assert_equal expected_3, actual_3
 
     @board.cells["D4"].fire_upon
     expected_4 =
@@ -199,6 +214,8 @@ class BoardTest < Minitest::Test
       "C . . . . \n" +
       "D . . X X \n"
     actual_4 = @board.render(true)
-    assert_equal expected, actual_4
+    actual_4 = actual_4.gsub(/[^\.A-Z1-4 \n]/,'')
+    actual_4 = actual_4.gsub(/\d{2,}/,'')
+    assert_equal expected_4, actual_4
   end
 end

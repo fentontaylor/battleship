@@ -52,16 +52,13 @@ class Game
     shot_result = targeted_cell.render
     shot_phrase =
       if shot_result == "\e[0;39;41mX\e[0m"
-        "\u{1F480}" +
-        "FATAL BLAST!".colorize(:background => :red) +
-        "\u{1F480}"
+        "\u{1F480}" + "FATAL BLAST!".colorize(:background => :red) + "\u{1F480}"
       elsif shot_result == "\e[0;31;49mH\e[0m"
-        "\u{1F4A5}" +
-        "HIT!".colorize(:red) +
-        "\u{1F4A5}"
+        "\u{1F4A5}" + "HIT!".colorize(:red) + "\u{1F4A5}"
       else
         "miss...".colorize(:light_blue)
       end
+      
     "#{pronoun} shot on #{last_shot} was a #{shot_phrase}"
   end
 end

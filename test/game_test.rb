@@ -13,8 +13,6 @@ class GameTest < Minitest::Test
 
   def setup
     @game = Game.new
-    @cruiser = Ship.new("Cruiser", 3)
-    @submarine = Ship.new("Submarine", 2)
   end
 
   def test_it_exists
@@ -43,13 +41,49 @@ class GameTest < Minitest::Test
       "| Cruiser: (3) |".colorize(:red),
       "| Submarine: (2) |".colorize(:green)
     ]
-    assert_equal  expected_2, actual_2
+    assert_equal expected_2, actual_2
+
+    2.times { @game.player.ships[:submarine].hit }
+    actual_3 = @game.fleet_status(@game.player)
+    expected_3 = [
+      "| Cruiser: (3) |".colorize(:red),
+      "| Submarine: (2) |".colorize(:red)
+    ]
+    assert_equal expected_3, actual_3
   end
 
   def test_report_shot_status
-    skip
-    @game.cpu.board
-    assert_equal "My shot on B4 was a HIT!", @game.report_shot_status(@game.player.take_shot("B4"))
+    ship = Ship.new("Submarine", 2)
+    board = @game.cpu.board
+    board.place(ship, ['A1', 'A2'])
+
+    puts "ENTER B1" # Enter B1 when prompted
+    @game.player.take_shot(@game.cpu.board)
+    expected =
+      'Your shot on B1 was a ' +
+      'miss...'.colorize(:light_blue)
+    actual = @game.report_shot_status(@game.player)
+    assert_equal expected, actual
+
+    puts "ENTER A1" # Enter A1 when prompted
+    @game.player.take_shot(@game.cpu.board)
+    expected_2 =
+      'Your shot on A1 was a ' +
+      "\u{1F4A5}" +
+      "HIT!".colorize(:red) +
+      "\u{1F4A5}"
+    actual_2 = @game.report_shot_status(@game.player)
+    assert_equal expected_2, actual_2
+
+    puts "ENTER A2" # Enter A2 when prompted
+    @game.player.take_shot(@game.cpu.board)
+    expected_3 =
+      'Your shot on A2 was a ' +
+      "\u{1F480}" +
+      "FATAL BLAST!".colorize(:background => :red) +
+      "\u{1F480}"
+    actual_3 = @game.report_shot_status(@game.player)
+    assert_equal expected_3, actual_3
   end
 
 end

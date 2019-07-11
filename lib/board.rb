@@ -80,13 +80,15 @@ class Board
 
   def render(show_ship = false)
     cell_names = @cells.keys
-    rendered_cells = cell_names.map {
-      |cell| @cells[cell].render(show_ship)
-    }
+    rendered_cells =
+      cell_names.map {
+        |cell| @cells[cell].render(show_ship)
+      }
+      
     output_rows = ["  #{@col_names.join(' ')} \n"]
 
     (0..@size -1).each do |i|
-      these_cells = 
+      these_cells =
         rendered_cells[ ( i * @size )..( (i + 1) * @size - 1 ) ]
         .join(' ')
       output_rows << "#{@row_names[i]} #{these_cells} \n"

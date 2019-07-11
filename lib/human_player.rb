@@ -67,5 +67,4 @@ class HumanPlayer
     @shots_taken << shot_coord
     @available_shots.delete(shot_coord)
   end
-
 end

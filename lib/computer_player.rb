@@ -26,25 +26,15 @@ class ComputerPlayer
         orientation = ['horiz', 'vert'].sample
 
         if orientation == 'horiz'
-          change = [1, -1].sample
           iter_num.times do
-            new_col = cell_seed[/[\d]+/].to_i + change
+            new_col = cell_seed[/[\d]+/].to_i + 1
             ship_coords << cell_seed[0] + new_col.to_s
           end
-          ship_coords = ship_coords.sort
-
         else
-          unless cell_seed[0] == 'A'
-            change = [1, -1].sample
-          else
-            change = 1
-          end
-
           iter_num.times do
-            new_row = (cell_seed[0].ord + change).chr
+            new_row = (cell_seed[0].ord + 1).chr
             ship_coords << rows.sample + cell_seed[/[\d]+/].to_s
           end
-          ship_coords = ship_coords.sort
         end
       end
 

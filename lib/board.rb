@@ -84,13 +84,15 @@ class Board
       cell_names.map {
         |cell| @cells[cell].render(show_ship)
       }
-      
+
     output_rows = ["  #{@col_names.join(' ')} \n"]
 
     (0..@size -1).each do |i|
       these_cells =
-        rendered_cells[ ( i * @size )..( (i + 1) * @size - 1 ) ]
-        .join(' ')
+        rendered_cells[
+          ( i * @size )..
+          ( (i + 1) * @size - 1 )
+        ].join(' ')
       output_rows << "#{@row_names[i]} #{these_cells} \n"
     end
 

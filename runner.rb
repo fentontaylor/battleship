@@ -28,7 +28,7 @@ until selection == 'q'
     add_custom = 'y'
     until add_custom == 'n'
       puts "\nCurrent fleet:"
-      puts game.player.ship_info
+      puts game.player.ship_info + "\n"
       print "Would you like to add an extra custom ship? Y / N: "
       add_custom = gets.chomp.downcase
       if add_custom == 'y'

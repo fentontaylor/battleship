@@ -17,7 +17,7 @@ class HumanPlayer
       length = @ships[ship].length
       "- The #{name} is #{length} units long.\n"
     end
-    info.join + "\n"
+    info.join
   end
 
   def place_player_ships
@@ -28,14 +28,18 @@ class HumanPlayer
     @ships.each do |ship, attr|
       name = @ships[ship].name
       length = @ships[ship].length
-      print "Enter the squares for the #{name} (#{length} spaces):\n> "
-      ship_coords_string = gets.chomp.upcase
-      ship_coords = ship_coords_string.split(" ")
 
-      until  @board.valid_placement?(@ships[ship], ship_coords)
-        print "Those are invalid coordinates. Please try again:\n> "
+      ready_to_place = false
+      until ready_to_place
+        print "Enter the squares for the #{name} (#{length} spaces):\n> "
         ship_coords_string = gets.chomp.upcase
         ship_coords = ship_coords_string.split(" ")
+
+        unless @board.valid_placement?(@ships[ship], ship_coords)
+          puts "Those are invalid coordinates. Please try again."
+        else
+          ready_to_place = true
+        end
       end
 
       @board.place(@ships[ship], ship_coords)

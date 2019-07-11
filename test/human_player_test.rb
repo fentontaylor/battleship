@@ -87,8 +87,5 @@ class HumanPlayerTest < Minitest::Test
     assert_equal 0, ship.health
     assert @player.already_fired_at?('A3')
     assert_equal 'A3', @player.shots_taken.last
-
-
   end
-
 end

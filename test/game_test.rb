@@ -7,7 +7,6 @@ require './lib/computer_player'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'colorize'
-require 'pry'
 
 class GameTest < Minitest::Test
 

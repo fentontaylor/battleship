@@ -34,12 +34,29 @@ class ComputerPlayerTest < Minitest::Test
   def test_place_cpu_ships_puts_ships_on_cells
     @cpu.place_cp_ships
     cpu_board_cells = @cpu.board.cells
-    cell_ship_status = cpu_board_cells.map do |key,cell|
+    cell_ship_status = cpu_board_cells.map do |key, cell|
       cpu_board_cells[key].ship
     end
 
     refute cell_ship_status.all? {|ship| ship.nil?}
     assert cell_ship_status.any? {|ship| ship.class == Ship}
+
+    actual =
+      cpu_board_cells.count do |key, cell|
+        unless cell.ship.nil?
+          cell.ship.name == 'Cruiser'
+        end
+      end
+    assert_equal 3, actual
+
+    actual_2 =
+      cpu_board_cells.count do |key, cell|
+        unless cell.ship.nil?
+          cell.ship.name == 'Submarine'
+        end
+      end
+    assert_equal 2, actual_2
+
   end
 
   def test_take_shot

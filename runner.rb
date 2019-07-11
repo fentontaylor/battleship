@@ -26,7 +26,8 @@ until selection == 'q'
     game = Game.new(size)
 
     add_custom = 'y'
-    until add_custom == 'n'
+    num_custom_ships = 0
+    until add_custom == 'n' || num_custom_ships == 3
       puts "\nCurrent fleet:"
       puts game.player.ship_info + "\n"
       print "Would you like to add an extra custom ship? Y / N: "
@@ -47,6 +48,7 @@ until selection == 'q'
         end
         game.player.ships[custom_name.downcase.to_sym] = Ship.new(custom_name, custom_length)
         game.cpu.ships[custom_name.downcase.to_sym] = Ship.new(custom_name, custom_length)
+        num_custom_ships += 1
       end
     end
 

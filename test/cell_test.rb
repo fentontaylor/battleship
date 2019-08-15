@@ -27,7 +27,7 @@ class CellTest < Minitest::Test
 
   def test_place_ship
     @cell.place_ship(@cruiser)
-    assert_instance_of Ship, @cell.ship
+    assert_equal @cruiser, @cell.ship
     refute @cell.empty?
   end
 
@@ -37,6 +37,7 @@ class CellTest < Minitest::Test
 
   def test_fire_upon
     @cell.place_ship(@cruiser)
+    assert_equal 3, @cell.ship.health
     @cell.fire_upon
     assert_equal 2, @cell.ship.health
     assert @cell.fired_upon?

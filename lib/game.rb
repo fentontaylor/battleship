@@ -42,12 +42,7 @@ class Game
   def report_shot_status(entity)
     last_shot = entity.shots_taken.last
     pronoun = entity.class == HumanPlayer ? "Your" : "My"
-    targeted_board =
-      if entity.class == HumanPlayer
-        @cpu.board
-      else
-        @player.board
-      end
+    targeted_board = entity.class == HumanPlayer ? @cpu.board : @player.board
     targeted_cell = targeted_board.cells[last_shot]
     shot_result = targeted_cell.render
     shot_phrase =
@@ -58,7 +53,7 @@ class Game
       else
         "miss...".colorize(:light_blue)
       end
-      
+
     "#{pronoun} shot on #{last_shot} was a #{shot_phrase}"
   end
 end

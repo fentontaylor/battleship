@@ -19,7 +19,7 @@ class Board
   end
 
   def valid_coordinate?(coord)
-    @cells.keys.include?(coord)
+    @cells.key?(coord)
   end
 
   def all_valid_coords?(coords_array)
@@ -36,19 +36,19 @@ class Board
 
     if coord_rows.uniq.length == 1 # All coords from same row
       diff =  coord_cols.map.with_index do |coord, index|
-                unless index == coord_cols.length - 1
-                  coord_cols[index + 1] - coord
-                end
-              end
+        unless index == coord_cols.length - 1
+          coord_cols[index + 1] - coord
+        end
+      end
       diff.pop
       diff.all? {|num| num == 1}
 
     elsif coord_cols.uniq.length == 1 # All coords from same column
       diff =  coord_rows.map.with_index do |coord, index|
-                unless index == coord_rows.length - 1
-                  coord_rows[index + 1] - coord
-                end
-              end
+        unless index == coord_rows.length - 1
+          coord_rows[index + 1] - coord
+        end
+      end
       diff.pop
       diff.all? {|num| num == 1}
 
